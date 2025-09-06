@@ -1,7 +1,7 @@
 import httpx
 import json
 import logging
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 from app.database import get_sync_database
 from app.models import AttackPattern
 
@@ -200,7 +200,7 @@ class AttackPatternService:
         self.database = database
         self.collection = database.attack_patterns
     
-    async def get_all_patterns(self, limit: int = 10, offset: int = 0) -> tuple[List[Dict], int]:
+    async def get_all_patterns(self, limit: int = 10, offset: int = 0) -> Tuple[List[Dict], int]:
         """Get all attack patterns with pagination"""
         try:
             cursor = self.collection.find().skip(offset).limit(limit)
@@ -211,7 +211,7 @@ class AttackPatternService:
             logger.error(f"Failed to get attack patterns: {e}")
             raise
     
-    async def search_patterns(self, query: str, limit: int = 10, offset: int = 0) -> tuple[List[Dict], int]:
+    async def search_patterns(self, query: str, limit: int = 10, offset: int = 0) -> Tuple[List[Dict], int]:
         """Search attack patterns across all fields (case-insensitive)"""
         try:
             # If query is empty, return all patterns
