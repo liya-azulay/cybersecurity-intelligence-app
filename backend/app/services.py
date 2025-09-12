@@ -1,3 +1,10 @@
+# Import necessary libraries
+# httpx = ספרייה לבקשות HTTP (כמו requests אבל אסינכרונית)
+# json = עבודה עם נתונים JSON
+# logging = כתיבת הודעות לוג
+# typing = הגדרת טיפוסים (List, Dict, Any, Tuple)
+# app.database = החיבור למסד הנתונים
+# app.models = המודלים (תבניות נתונים)
 import httpx
 import json
 import logging
@@ -8,29 +15,44 @@ from app.models import AttackPattern
 logger = logging.getLogger(__name__)
 
 
+# MITREAttackService class - שירות לטעינת נתונים מ-MITRE ATT&CK
+# class = תבנית ליצירת אובייקטים
+# זה השירות שאחראי על טעינת הנתונים מהאינטרנט ושמירתם במסד הנתונים
 class MITREAttackService:
     """Service for fetching and processing MITRE ATT&CK data"""
     
+    # BASE_URL = כתובת הבסיס של MITRE ATT&CK
+    # זה המקום שממנו אנחנו מורידים את הנתונים
     BASE_URL = "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack"
     
+    # פונקציה לטעינת דפוסי תקיפה מ-MITRE ATT&CK
+    # async = פונקציה אסינכרונית (לא חוסמת את השרת)
+    # -> List[Dict[str, Any]] = מחזירה רשימה של מילונים
     async def fetch_attack_patterns(self) -> List[Dict[str, Any]]:
         """Fetch attack patterns from MITRE ATT&CK repository"""
         try:
-            # Get list of all attack pattern files
+            # קבלת רשימת כל קבצי דפוסי התקיפה
+            # httpx.AsyncClient = לקוח HTTP אסינכרוני
             async with httpx.AsyncClient() as client:
+                # שליחת בקשה ל-GitHub API לקבלת רשימת קבצים
                 response = await client.get(
                     "https://api.github.com/repos/mitre/cti/contents/enterprise-attack/attack-pattern"
                 )
+                # בדיקה שהבקשה הצליחה
                 response.raise_for_status()
+                # המרת התשובה ל-JSON
                 files = response.json()
                 
+                # רשימה לאחסון דפוסי התקיפה
                 attack_patterns = []
+                # ספירת קבצי JSON
                 total_files = len([f for f in files if f["name"].endswith(".json")])
                 processed_files = 0
                 
                 logger.info(f"Found {total_files} JSON files to process")
                 
-                # Process files in batches to manage memory
+                # עיבוד קבצים בחבילות לניהול זיכרון
+                # batch_size = כמה קבצים לעבד בכל פעם
                 batch_size = 100
                 json_files = [f for f in files if f["name"].endswith(".json")]
                 

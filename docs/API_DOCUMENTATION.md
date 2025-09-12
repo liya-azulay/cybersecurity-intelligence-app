@@ -62,6 +62,7 @@ Currently, the API does not require authentication. In production, implement pro
 Check if the API is running.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -70,6 +71,7 @@ Check if the API is running.
 ```
 
 **Example:**
+
 ```bash
 curl http://localhost:8000/api/v1/health
 ```
@@ -81,10 +83,12 @@ curl http://localhost:8000/api/v1/health
 Retrieve all attack patterns with pagination.
 
 **Query Parameters:**
+
 - `limit` (integer, optional): Number of results to return (default: 50, max: 100)
 - `offset` (integer, optional): Number of results to skip (default: 0)
 
 **Response:**
+
 ```json
 {
   "results": [AttackPattern],
@@ -95,6 +99,7 @@ Retrieve all attack patterns with pagination.
 ```
 
 **Example:**
+
 ```bash
 curl "http://localhost:8000/api/v1/attack-patterns?limit=10&offset=0"
 ```
@@ -106,6 +111,7 @@ curl "http://localhost:8000/api/v1/attack-patterns?limit=10&offset=0"
 Search attack patterns by description (case-insensitive).
 
 **Request Body:**
+
 ```json
 {
   "query": "DLL injection",
@@ -115,6 +121,7 @@ Search attack patterns by description (case-insensitive).
 ```
 
 **Response:**
+
 ```json
 {
   "results": [AttackPattern],
@@ -125,6 +132,7 @@ Search attack patterns by description (case-insensitive).
 ```
 
 **Example:**
+
 ```bash
 curl -X POST "http://localhost:8000/api/v1/attack-patterns/search" \
   -H "Content-Type: application/json" \
@@ -138,9 +146,11 @@ curl -X POST "http://localhost:8000/api/v1/attack-patterns/search" \
 Retrieve a specific attack pattern by ID.
 
 **Path Parameters:**
+
 - `pattern_id` (string): The unique identifier of the attack pattern
 
 **Response:**
+
 ```json
 {
   "id": "T1001",
@@ -157,6 +167,7 @@ Retrieve a specific attack pattern by ID.
 ```
 
 **Example:**
+
 ```bash
 curl http://localhost:8000/api/v1/attack-patterns/T1001
 ```
@@ -168,6 +179,7 @@ curl http://localhost:8000/api/v1/attack-patterns/T1001
 Retrieve statistics about attack patterns.
 
 **Response:**
+
 ```json
 {
   "total_patterns": 1500,
@@ -195,6 +207,7 @@ Retrieve statistics about attack patterns.
 ```
 
 **Example:**
+
 ```bash
 curl http://localhost:8000/api/v1/stats
 ```
@@ -202,6 +215,7 @@ curl http://localhost:8000/api/v1/stats
 ## Error Responses
 
 ### 400 Bad Request
+
 ```json
 {
   "detail": "Invalid request parameters"
@@ -209,6 +223,7 @@ curl http://localhost:8000/api/v1/stats
 ```
 
 ### 404 Not Found
+
 ```json
 {
   "detail": "Attack pattern with ID T9999 not found"
@@ -216,6 +231,7 @@ curl http://localhost:8000/api/v1/stats
 ```
 
 ### 500 Internal Server Error
+
 ```json
 {
   "detail": "Internal server error"
@@ -229,6 +245,7 @@ Currently, there are no rate limits implemented. In production, implement rate l
 ## CORS
 
 The API is configured to allow requests from:
+
 - `http://localhost:3000` (React development server)
 - `http://127.0.0.1:3000` (Alternative localhost)
 
@@ -246,6 +263,7 @@ python data_ingestion.py
 ```
 
 This script will:
+
 1. Fetch data from the MITRE ATT&CK GitHub repository
 2. Process and transform the data
 3. Store it in MongoDB
@@ -259,6 +277,7 @@ FastAPI automatically generates interactive API documentation:
 - **ReDoc**: http://localhost:8000/redoc
 
 These interfaces allow you to:
+
 - Explore all available endpoints
 - Test API calls directly from the browser
 - View request/response schemas
@@ -270,20 +289,25 @@ These interfaces allow you to:
 
 ```typescript
 // Get all attack patterns
-const response = await fetch('http://localhost:8000/api/v1/attack-patterns?limit=10');
+const response = await fetch(
+  "http://localhost:8000/api/v1/attack-patterns?limit=10",
+);
 const data = await response.json();
 
 // Search attack patterns
-const searchResponse = await fetch('http://localhost:8000/api/v1/attack-patterns/search', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
+const searchResponse = await fetch(
+  "http://localhost:8000/api/v1/attack-patterns/search",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: "malware",
+      limit: 20,
+    }),
   },
-  body: JSON.stringify({
-    query: 'malware',
-    limit: 20
-  })
-});
+);
 const searchData = await searchResponse.json();
 ```
 

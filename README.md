@@ -28,6 +28,7 @@ A comprehensive full-stack web application for analyzing and visualizing MITRE A
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18.3.1** with TypeScript 5.7.2
 - **Material-UI 6.1.0** for components and theming
 - **Redux Toolkit 2.3.0** for state management
@@ -36,6 +37,7 @@ A comprehensive full-stack web application for analyzing and visualizing MITRE A
 - **Jest & Testing Library** for testing
 
 ### Backend
+
 - **Python 3.12** with FastAPI 0.115.6
 - **MongoDB 6.0+** for data storage
 - **Motor 3.6.0** for async MongoDB operations
@@ -44,6 +46,7 @@ A comprehensive full-stack web application for analyzing and visualizing MITRE A
 - **Pytest** for comprehensive testing
 
 ### Development Tools
+
 - **ESLint & Prettier** for code quality
 - **Black & Flake8** for Python formatting
 - **MyPy** for type checking
@@ -52,6 +55,7 @@ A comprehensive full-stack web application for analyzing and visualizing MITRE A
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Node.js 20.18.0** (use `nvm use` to switch)
 - **Python 3.12+**
 - **MongoDB 6.0+**
@@ -73,6 +77,7 @@ chmod +x setup.sh
 If you prefer to set up manually or the automated script fails:
 
 #### Backend Setup
+
 ```bash
 cd backend
 python -m venv venv
@@ -83,6 +88,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 #### Frontend Setup
+
 ```bash
 cd frontend
 nvm use  # Switch to Node.js 20.18.0
@@ -119,29 +125,32 @@ cybersecurity-intelligence-app/
 
 ## 🔌 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/v1/attack-patterns` | Get paginated attack patterns |
-| `POST` | `/api/v1/search` | Search attack patterns |
-| `GET` | `/api/v1/dashboard-data` | Get all data for dashboard |
-| `GET` | `/api/v1/stats` | Get statistics |
-| `GET` | `/api/v1/health` | Health check |
+| Method | Endpoint                  | Description                   |
+| ------ | ------------------------- | ----------------------------- |
+| `GET`  | `/api/v1/attack-patterns` | Get paginated attack patterns |
+| `POST` | `/api/v1/search`          | Search attack patterns        |
+| `GET`  | `/api/v1/dashboard-data`  | Get all data for dashboard    |
+| `GET`  | `/api/v1/stats`           | Get statistics                |
+| `GET`  | `/api/v1/health`          | Health check                  |
 
 ## 🧪 Testing
 
 ### Backend Tests
+
 ```bash
 cd backend
 pytest --cov=app --cov-report=html
 ```
 
 ### Frontend Tests
+
 ```bash
 cd frontend
 npm test -- --coverage
 ```
 
 ### Run All Tests
+
 ```bash
 # From project root
 ./start.sh test
@@ -150,18 +159,21 @@ npm test -- --coverage
 ## 📊 Features in Detail
 
 ### 🔍 Advanced Search
+
 - **Debounced Input**: 500ms delay for optimal performance
 - **Multi-field Search**: Searches across all attack pattern fields
 - **Case-insensitive**: Smart search that ignores case
 - **Empty Query Support**: Returns all patterns when search is empty
 
 ### 📊 Interactive Dashboard
+
 - **Statistics Cards**: Total patterns, top phases, platforms
 - **Charts**: Phase distribution, platform distribution
 - **Real-time Updates**: Live data from database
 - **Export Functionality**: Download data as JSON
 
 ### 📋 Attack Pattern Details
+
 - **Comprehensive Modal**: All attack pattern information
 - **External References**: Links to MITRE documentation
 - **Metadata**: Creation and modification dates
@@ -170,6 +182,7 @@ npm test -- --coverage
 ## 🎨 Theming
 
 The application features a comprehensive cybersecurity theme with:
+
 - **Risk Level Colors**: Critical, High, Medium, Low
 - **Phase Colors**: Unique colors for each attack phase
 - **Platform Colors**: Distinct colors for different platforms
@@ -188,6 +201,7 @@ The application features a comprehensive cybersecurity theme with:
 ### Common Issues
 
 #### Node.js Version Issues
+
 ```bash
 # If you get "Unsupported URL Type 'npm:'" error
 nvm use 20.18.0
@@ -196,6 +210,7 @@ npm --version   # Should show 10.8.2 or higher
 ```
 
 #### npm Install Fails
+
 ```bash
 # Clear npm cache and try again
 npm cache clean --force
@@ -204,6 +219,7 @@ npm install
 ```
 
 #### Python Dependencies
+
 ```bash
 # If Python dependencies fail
 python3 -m pip install --upgrade pip
@@ -211,6 +227,7 @@ python3 -m pip install -r requirements.txt
 ```
 
 #### MongoDB Connection
+
 ```bash
 # Ensure MongoDB is running
 # On macOS with Homebrew:
@@ -222,6 +239,7 @@ sudo systemctl start mongod
 ### Getting Help
 
 If you encounter issues not covered here:
+
 1. Check the [Issues](https://github.com/shiran1989/magshimim-cyber-homework/issues) page
 2. Create a new issue with:
    - Your operating system

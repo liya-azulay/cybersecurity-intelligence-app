@@ -5,12 +5,14 @@
 Before installing the Cybersecurity Intelligence Application, ensure you have the following installed:
 
 ### Required Software
+
 - **Node.js 18.20.8** (use `.nvmrc` file)
 - **Python 3.11+**
 - **MongoDB** (local or cloud instance)
 - **Git** (for cloning the repository)
 
 ### Optional but Recommended
+
 - **nvm** (Node Version Manager)
 - **Docker** (for containerized deployment)
 - **VS Code** (with Python and TypeScript extensions)
@@ -18,22 +20,26 @@ Before installing the Cybersecurity Intelligence Application, ensure you have th
 ## Quick Start
 
 ### 1. Clone the Repository
+
 ```bash
 git clone <repository-url>
 cd cybersecurity-intelligence-app
 ```
 
 ### 2. Use Correct Node Version
+
 ```bash
 nvm use  # This will use Node.js 18.20.8 as specified in .nvmrc
 ```
 
 ### 3. Run the Startup Script
+
 ```bash
 ./start.sh
 ```
 
 This script will:
+
 - Check prerequisites
 - Set up Python virtual environment
 - Install backend dependencies
@@ -47,40 +53,46 @@ If you prefer to set up the services manually:
 ### Backend Setup
 
 1. **Navigate to backend directory**
+
    ```bash
    cd backend
    ```
 
 2. **Create Python virtual environment**
+
    ```bash
    python3 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Set up environment variables**
+
    ```bash
    cp env.example .env
    # Edit .env with your MongoDB connection string
    ```
 
 5. **Start MongoDB** (if running locally)
+
    ```bash
    # macOS with Homebrew
    brew services start mongodb-community
-   
+
    # Ubuntu/Debian
    sudo systemctl start mongod
-   
+
    # Windows
    net start MongoDB
    ```
 
 6. **Populate database with MITRE ATT&CK data**
+
    ```bash
    python data_ingestion.py
    ```
@@ -93,11 +105,13 @@ If you prefer to set up the services manually:
 ### Frontend Setup
 
 1. **Navigate to frontend directory**
+
    ```bash
    cd frontend
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
@@ -120,6 +134,7 @@ After installation, verify that everything is working:
 ### Common Issues
 
 #### Node.js Version Issues
+
 ```bash
 # Check current Node version
 node --version
@@ -130,6 +145,7 @@ nvm use 18.20.8
 ```
 
 #### MongoDB Connection Issues
+
 ```bash
 # Check if MongoDB is running
 mongosh --eval "db.runCommand('ping')"
@@ -140,6 +156,7 @@ sudo systemctl start mongod           # Linux
 ```
 
 #### Python Virtual Environment Issues
+
 ```bash
 # Make sure you're in the backend directory
 cd backend
@@ -152,6 +169,7 @@ pip install -r requirements.txt
 ```
 
 #### Port Already in Use
+
 ```bash
 # Check what's using the ports
 lsof -i :3000  # Frontend port
@@ -182,6 +200,7 @@ python data_ingestion.py
 ```
 
 This will:
+
 - Fetch fresh data from MITRE ATT&CK
 - Clear existing data
 - Import new attack patterns
@@ -259,6 +278,7 @@ If you encounter issues:
 5. Review the troubleshooting section above
 
 For additional help, refer to:
+
 - [Architecture Documentation](./ARCHITECTURE.md)
 - [API Documentation](http://localhost:8000/docs) (when running)
 - [React Documentation](https://reactjs.org/docs)

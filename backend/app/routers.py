@@ -1,3 +1,14 @@
+# Import necessary libraries
+# fastapi = framework for building APIs
+# APIRouter = create router (group of endpoints)
+# HTTPException = create HTTP errors
+# Query = define query string parameters
+# Depends = dependency injection
+# typing = define types
+# logging = write log messages
+# app.models = models (data templates)
+# app.database = database connection
+# app.services = services (business logic)
 from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import List
 import logging
@@ -7,32 +18,51 @@ from app.services import AttackPatternService
 
 logger = logging.getLogger(__name__)
 
+# create router - group of endpoints
+# router = collection of API addresses that are related
 router = APIRouter()
 
 
+# function to create attack pattern service
+# async = async function
+# Depends = FastAPI will call this function automatically when needed
 async def get_attack_service():
     """Dependency to get attack pattern service"""
+    # get database connection
     database = await get_database()
+    # create new service with connection
     return AttackPatternService(database)
 
 
+# Health check endpoint - check server health
+# @router.get("/health") = endpoint that receives GET requests to /health address
 @router.get("/health")
 async def health_check():
     """Health check endpoint"""
+    # return message that server is working
     return {"status": "healthy", "message": "Cybersecurity Intelligence API is running"}
 
 
+# Endpoint לקבלת כל דפוסי התקיפה
+# @router.get("/attack-patterns") = endpoint שמקבל GET requests
+# response_model=SearchResponse = התשובה תהיה מסוג SearchResponse
 @router.get("/attack-patterns", response_model=SearchResponse)
 async def get_attack_patterns(
+    # Query parameters - פרמטרים שמגיעים ב-URL
+    # limit = כמה תוצאות להחזיר (בין 1 ל-100)
     limit: int = Query(10, ge=1, le=100, description="Number of results to return"),
+    # offset = כמה תוצאות לדלג (לעמוד הבא)
     offset: int = Query(0, ge=0, description="Number of results to skip"),
+    # service = השירות (FastAPI יקרא ל-get_attack_service() אוטומטית)
     service: AttackPatternService = Depends(get_attack_service)
 ):
     """Get all attack patterns with pagination"""
     try:
+        # קבלת דפוסי התקיפה מהשירות
         patterns, total = await service.get_all_patterns(limit=limit, offset=offset)
         
-        # Convert to response format
+        # המרה לפורמט תשובה
+        # צריך להמיר את הנתונים מהמסד לפורמט שהמשתמש מצפה לו
         response_patterns = []
         for pattern in patterns:
             response_patterns.append(AttackPatternResponse(
@@ -49,6 +79,7 @@ async def get_attack_patterns(
                 modified_at=pattern.get("modified_at", "")
             ))
         
+        # החזרת התשובה בפורמט SearchResponse
         return SearchResponse(
             results=response_patterns,
             total=total,
@@ -56,24 +87,32 @@ async def get_attack_patterns(
             offset=offset
         )
     except Exception as e:
+        # אם יש שגיאה, כתוב ללוג וזרוק HTTPException
         logger.error(f"Failed to get attack patterns: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Endpoint לחיפוש דפוסי תקיפה
+# @router.post("/attack-patterns/search") = endpoint שמקבל POST requests
+# POST = שולח נתונים בגוף הבקשה (לא ב-URL)
 @router.post("/attack-patterns/search", response_model=SearchResponse)
 async def search_attack_patterns(
+    # request = הנתונים שהמשתמש שולח (SearchRequest)
     request: SearchRequest,
+    # service = השירות (FastAPI יקרא ל-get_attack_service() אוטומטית)
     service: AttackPatternService = Depends(get_attack_service)
 ):
     """Search attack patterns by description"""
     try:
+        # חיפוש דפוסי התקיפה באמצעות השירות
         patterns, total = await service.search_patterns(
-            query=request.query,
-            limit=request.limit,
-            offset=request.offset
+            query=request.query,  # מה המשתמש מחפש
+            limit=request.limit,  # כמה תוצאות להחזיר
+            offset=request.offset  # מאיפה להתחיל
         )
         
-        # Convert to response format
+        # המרה לפורמט תשובה
+        # צריך להמיר את הנתונים מהמסד לפורמט שהמשתמש מצפה לו
         response_patterns = []
         for pattern in patterns:
             response_patterns.append(AttackPatternResponse(
@@ -90,6 +129,7 @@ async def search_attack_patterns(
                 modified_at=pattern.get("modified_at", "")
             ))
         
+        # החזרת התשובה בפורמט SearchResponse
         return SearchResponse(
             results=response_patterns,
             total=total,
@@ -97,6 +137,7 @@ async def search_attack_patterns(
             offset=request.offset
         )
     except Exception as e:
+        # אם יש שגיאה, כתוב ללוג וזרוק HTTPException
         logger.error(f"Failed to search attack patterns: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 

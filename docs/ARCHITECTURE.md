@@ -25,6 +25,7 @@ The Cybersecurity Intelligence Application is a full-stack web application desig
 ## Backend Architecture
 
 ### Technology Stack
+
 - **Framework**: FastAPI (Python 3.11+)
 - **Database**: MongoDB with Motor (async driver)
 - **Data Models**: Pydantic for validation and serialization
@@ -32,6 +33,7 @@ The Cybersecurity Intelligence Application is a full-stack web application desig
 - **API Documentation**: Automatic OpenAPI/Swagger generation
 
 ### Project Structure
+
 ```
 backend/
 ├── app/
@@ -68,6 +70,7 @@ backend/
 ### Database Schema
 
 #### AttackPattern Collection
+
 ```json
 {
   "_id": "ObjectId",
@@ -86,17 +89,18 @@ backend/
 
 ### API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/health` | Health check |
-| GET | `/api/v1/attack-patterns` | Get all attack patterns (paginated) |
-| POST | `/api/v1/attack-patterns/search` | Search attack patterns |
-| GET | `/api/v1/attack-patterns/{id}` | Get specific attack pattern |
-| GET | `/api/v1/stats` | Get statistics |
+| Method | Endpoint                         | Description                         |
+| ------ | -------------------------------- | ----------------------------------- |
+| GET    | `/api/v1/health`                 | Health check                        |
+| GET    | `/api/v1/attack-patterns`        | Get all attack patterns (paginated) |
+| POST   | `/api/v1/attack-patterns/search` | Search attack patterns              |
+| GET    | `/api/v1/attack-patterns/{id}`   | Get specific attack pattern         |
+| GET    | `/api/v1/stats`                  | Get statistics                      |
 
 ## Frontend Architecture
 
 ### Technology Stack
+
 - **Framework**: React 18 with TypeScript
 - **State Management**: Redux Toolkit with RTK Query
 - **UI Library**: Material-UI (MUI) v5
@@ -105,6 +109,7 @@ backend/
 - **Testing**: Jest with React Testing Library
 
 ### Project Structure
+
 ```
 frontend/src/
 ├── components/              # React components
@@ -127,6 +132,7 @@ frontend/src/
 ### Component Architecture
 
 #### Component Hierarchy
+
 ```
 App
 ├── AppBar
@@ -140,6 +146,7 @@ App
 ```
 
 #### State Management
+
 - **Global State**: Redux store with RTK Query for API state
 - **Local State**: React hooks for component-specific state
 - **Custom Hooks**: Reusable logic for search and pagination
@@ -155,21 +162,25 @@ App
 ## Key Features Implementation
 
 ### 1. Search Functionality
+
 - **Backend**: Case-insensitive regex search on description field
 - **Frontend**: Real-time search with debouncing
 - **Implementation**: MongoDB `$regex` with `$options: "i"`
 
 ### 2. Pagination
+
 - **Backend**: `limit` and `offset` parameters
 - **Frontend**: Material-UI Pagination component
 - **State**: Custom `usePagination` hook
 
 ### 3. Data Visualization
+
 - **Attack Cards**: Material-UI Cards with color-coded phases
 - **Statistics**: Charts and lists for phase/platform distribution
 - **Responsive Design**: Grid layout that adapts to screen size
 
 ### 4. Error Handling
+
 - **Backend**: HTTP status codes and error messages
 - **Frontend**: Error boundaries and user-friendly messages
 - **API**: RTK Query automatic error handling
@@ -177,12 +188,14 @@ App
 ## Security Considerations
 
 ### Backend Security
+
 - **CORS**: Configured for development (should be restricted in production)
 - **Input Validation**: Pydantic models validate all inputs
 - **Database**: MongoDB connection with proper authentication
 - **Environment Variables**: Sensitive data in environment files
 
 ### Frontend Security
+
 - **XSS Protection**: React's built-in XSS protection
 - **Input Sanitization**: User inputs are properly escaped
 - **API Security**: HTTPS in production (HTTP for development)
@@ -190,12 +203,14 @@ App
 ## Performance Optimizations
 
 ### Backend Optimizations
+
 - **Async Operations**: FastAPI with async/await
 - **Database Indexing**: Indexes on frequently queried fields
 - **Pagination**: Limit data transfer with pagination
 - **Caching**: RTK Query provides automatic caching
 
 ### Frontend Optimizations
+
 - **Code Splitting**: React lazy loading
 - **Memoization**: React.memo for expensive components
 - **Virtual Scrolling**: For large lists (future enhancement)
@@ -204,12 +219,14 @@ App
 ## Testing Strategy
 
 ### Backend Testing
+
 - **Unit Tests**: Individual function testing with pytest
 - **Integration Tests**: API endpoint testing
 - **Mocking**: Database and external service mocking
 - **Coverage**: Aim for >90% code coverage
 
 ### Frontend Testing
+
 - **Component Tests**: React Testing Library
 - **Hook Tests**: Custom hook testing
 - **Integration Tests**: User interaction testing
@@ -218,11 +235,13 @@ App
 ## Deployment Considerations
 
 ### Development
+
 - **Local Development**: Docker Compose for easy setup
 - **Hot Reloading**: Both frontend and backend support hot reloading
 - **Environment**: Separate development and production configs
 
 ### Production
+
 - **Containerization**: Docker containers for both services
 - **Reverse Proxy**: Nginx for serving static files and API
 - **Database**: MongoDB Atlas or self-hosted MongoDB
@@ -232,6 +251,7 @@ App
 ## Future Enhancements
 
 ### Planned Features
+
 1. **Stage 2**: Cyber Bot with chat interface
 2. **Stage 3**: Sandbox integration for file analysis
 3. **Advanced Search**: Filters by phase, platform, etc.
@@ -241,6 +261,7 @@ App
 7. **Mobile App**: React Native version
 
 ### Technical Improvements
+
 1. **Caching**: Redis for better performance
 2. **Search**: Elasticsearch for advanced search
 3. **Analytics**: User behavior tracking
