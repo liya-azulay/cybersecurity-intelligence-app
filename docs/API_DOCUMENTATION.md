@@ -76,6 +76,137 @@ Check if the API is running.
 curl http://localhost:8000/api/v1/health
 ```
 
+## Cyber Bot API
+
+### Chat with Cyber Bot
+
+#### POST /api/v1/bot/chat
+
+Send a message to the cyber bot and get an intelligent response.
+
+**Request Body:**
+
+```json
+{
+  "message": "Show me all persistence techniques",
+  "user_id": "user123"
+}
+```
+
+**Response:**
+
+```json
+{
+  "response": "I found 15 persistence techniques in the database. Here are the most common ones: T1543.003 (Create or Modify System Process: Windows Service), T1547.001 (Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder)...",
+  "suggestions": [
+    "Show me more details about T1543.003",
+    "What are the detection methods for persistence?",
+    "Search for Windows-specific techniques"
+  ],
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+**Example:**
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/bot/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Show me all persistence techniques", "user_id": "user123"}'
+```
+
+### Get Bot Statistics
+
+#### GET /api/v1/bot/stats
+
+Get statistics about bot usage and performance.
+
+**Response:**
+
+```json
+{
+  "total_commands": 150,
+  "successful_commands": 142,
+  "failed_commands": 8,
+  "most_used_commands": [
+    {"command": "search", "count": 45},
+    {"command": "details", "count": 32},
+    {"command": "virustotal", "count": 28}
+  ],
+  "average_response_time": 1.2
+}
+```
+
+**Example:**
+
+```bash
+curl http://localhost:8000/api/v1/bot/stats
+```
+
+### Bot Health Check
+
+#### GET /api/v1/bot/health
+
+Check if the bot service is running and healthy.
+
+**Response:**
+
+```json
+{
+  "status": "healthy",
+  "bot_version": "1.0.0",
+  "last_activity": "2024-01-15T10:30:00Z",
+  "active_connections": 3
+}
+```
+
+**Example:**
+
+```bash
+curl http://localhost:8000/api/v1/bot/health
+```
+
+### Get Available Commands
+
+#### GET /api/v1/bot/commands
+
+Get list of available bot commands and their descriptions.
+
+**Response:**
+
+```json
+{
+  "commands": [
+    {
+      "name": "search",
+      "description": "Search for attack patterns in the database",
+      "example": "search for persistence techniques"
+    },
+    {
+      "name": "details",
+      "description": "Get detailed information about a specific technique",
+      "example": "show me details about T1543.003"
+    },
+    {
+      "name": "virustotal",
+      "description": "Analyze a file or hash using VirusTotal",
+      "example": "analyze this hash: 1234567890abcdef"
+    },
+    {
+      "name": "stats",
+      "description": "Get statistics about attack patterns",
+      "example": "show me statistics"
+    }
+  ]
+}
+```
+
+**Example:**
+
+```bash
+curl http://localhost:8000/api/v1/bot/commands
+```
+
 ### Get All Attack Patterns
 
 #### GET /api/v1/attack-patterns
@@ -347,6 +478,20 @@ curl "http://localhost:8000/api/v1/attack-patterns/T1001"
 
 # Get statistics
 curl "http://localhost:8000/api/v1/stats"
+
+# Chat with cyber bot
+curl -X POST "http://localhost:8000/api/v1/bot/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Show me all persistence techniques", "user_id": "user123"}'
+
+# Get bot statistics
+curl "http://localhost:8000/api/v1/bot/stats"
+
+# Get bot health
+curl "http://localhost:8000/api/v1/bot/health"
+
+# Get available commands
+curl "http://localhost:8000/api/v1/bot/commands"
 ```
 
 ## Performance Considerations

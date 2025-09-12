@@ -14,6 +14,9 @@ A comprehensive full-stack web application for analyzing and visualizing MITRE A
 - **📊 Interactive Dashboard**: Comprehensive statistics and visualizations with charts
 - **📋 Attack Pattern Details**: Detailed modal views with external references and metadata
 - **🔗 Technique Relationships**: Visual representation of attack relationships
+- **🤖 Cyber Bot**: Intelligent chatbot for security analysis with natural language processing
+- **🛡️ VirusTotal Integration**: Real-time malware analysis and hash checking
+- **💬 Natural Language Commands**: Chat-based interface for security queries
 - **🎨 Responsive Design**: Modern Material-UI interface with cybersecurity theme
 - **⚡ Real-time Data**: Live updates from MITRE CTI database
 - **🧪 Complete Testing**: Full test coverage for both frontend and backend
@@ -24,6 +27,48 @@ A comprehensive full-stack web application for analyzing and visualizing MITRE A
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:8000
 - **API Documentation**: http://localhost:8000/docs
+- **Bot Interface**: Available in the main application
+
+## 🤖 How to Use the Cyber Bot
+
+The Cyber Bot understands natural language commands for security analysis:
+
+### Database Search Commands
+```
+search malware
+find persistence techniques
+show me lateral movement
+what are the attack patterns for Windows
+```
+
+### Specific Pattern Details
+```
+show me T1055
+details for T1001
+info about T1059
+tell me about T1083
+```
+
+### VirusTotal Analysis
+```
+check md5 5d41402abc4b2a76b9719d911017c592
+analyze sha1 356a192b7913b04c54574d18c28d46e6395428ab
+check hash 5d41402abc4b2a76b9719d911017c592
+```
+
+### Statistics and Analytics
+```
+show stats
+get statistics
+show me the data
+```
+
+### Help and Commands
+```
+help
+what can you do
+show commands
+```
 
 ## 🛠️ Tech Stack
 
@@ -106,13 +151,20 @@ cybersecurity-intelligence-app/
 │   │   ├── models.py         # Pydantic models
 │   │   ├── routers.py        # API endpoints
 │   │   ├── services.py       # Business logic
-│   │   └── database.py       # MongoDB connection
+│   │   ├── database.py       # MongoDB connection
+│   │   ├── bot_router.py     # Bot API endpoints
+│   │   └── 📁 bot/           # Cyber Bot implementation
+│   │       ├── cyber_bot.py  # Main bot logic
+│   │       ├── command_parser.py # Natural language parser
+│   │       ├── virustotal_client.py # VirusTotal integration
+│   │       └── models.py     # Bot data models
 │   ├── 📁 tests/             # Backend tests
 │   ├── data_ingestion.py     # MITRE data loader
 │   └── requirements.txt      # Python dependencies
 ├── 📁 frontend/              # React frontend
 │   ├── 📁 src/              # Source code
 │   │   ├── 📁 components/   # React components
+│   │   │   └── CyberBot.tsx # Bot chat interface
 │   │   ├── 📁 hooks/        # Custom hooks
 │   │   ├── 📁 services/     # API services
 │   │   ├── 📁 utils/        # Utility functions
@@ -125,13 +177,22 @@ cybersecurity-intelligence-app/
 
 ## 🔌 API Endpoints
 
+### Main API
 | Method | Endpoint                  | Description                   |
 | ------ | ------------------------- | ----------------------------- |
 | `GET`  | `/api/v1/attack-patterns` | Get paginated attack patterns |
-| `POST` | `/api/v1/search`          | Search attack patterns        |
+| `POST` | `/api/v1/attack-patterns/search` | Search attack patterns        |
 | `GET`  | `/api/v1/dashboard-data`  | Get all data for dashboard    |
 | `GET`  | `/api/v1/stats`           | Get statistics                |
 | `GET`  | `/api/v1/health`          | Health check                  |
+
+### Cyber Bot API
+| Method | Endpoint                  | Description                   |
+| ------ | ------------------------- | ----------------------------- |
+| `POST` | `/api/v1/bot/chat`        | Send message to cyber bot     |
+| `GET`  | `/api/v1/bot/stats`       | Get bot usage statistics      |
+| `GET`  | `/api/v1/bot/health`      | Bot health check              |
+| `GET`  | `/api/v1/bot/commands`    | Get available bot commands    |
 
 ## 🧪 Testing
 
@@ -178,6 +239,16 @@ npm test -- --coverage
 - **External References**: Links to MITRE documentation
 - **Metadata**: Creation and modification dates
 - **Responsive Design**: Works on all screen sizes
+
+### 🤖 Cyber Bot Features
+
+- **Natural Language Processing**: Understands security queries in plain English
+- **Database Search**: "search malware" or "find persistence techniques"
+- **Pattern Details**: "show me T1055" for specific attack pattern information
+- **VirusTotal Integration**: "check md5 xxxxxx" for malware analysis
+- **Statistics**: "show stats" for attack pattern analytics
+- **Smart Responses**: Context-aware answers with helpful tips
+- **Command History**: Tracks usage patterns and statistics
 
 ## 🎨 Theming
 

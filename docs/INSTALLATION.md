@@ -128,6 +128,8 @@ After installation, verify that everything is working:
 1. **Backend API**: Visit http://localhost:8000/docs
 2. **Frontend App**: Visit http://localhost:3000
 3. **Health Check**: Visit http://localhost:8000/api/v1/health
+4. **Bot Health Check**: Visit http://localhost:8000/api/v1/bot/health
+5. **Bot Commands**: Visit http://localhost:8000/api/v1/bot/commands
 
 ## Troubleshooting
 
@@ -188,7 +190,13 @@ MONGODB_URL=mongodb://localhost:27017
 DATABASE_NAME=cybersecurity_intelligence
 API_HOST=0.0.0.0
 API_PORT=8000
+VIRUSTOTAL_API_KEY=your_virustotal_api_key_here
 ```
+
+**Note**: For VirusTotal integration, you need to:
+1. Sign up for a free VirusTotal account at https://www.virustotal.com/
+2. Get your API key from your account settings
+3. Add the API key to your `.env` file
 
 ### Database Issues
 
@@ -265,6 +273,7 @@ DATABASE_NAME=cybersecurity_intelligence_prod
 API_HOST=0.0.0.0
 API_PORT=8000
 NODE_ENV=production
+VIRUSTOTAL_API_KEY=your_production_virustotal_api_key
 ```
 
 ## Support
@@ -275,7 +284,8 @@ If you encounter issues:
 2. Verify all prerequisites are installed
 3. Ensure MongoDB is running
 4. Check that ports 3000 and 8000 are available
-5. Review the troubleshooting section above
+5. Verify VirusTotal API key is configured (for bot functionality)
+6. Review the troubleshooting section above
 
 For additional help, refer to:
 
@@ -283,3 +293,4 @@ For additional help, refer to:
 - [API Documentation](http://localhost:8000/docs) (when running)
 - [React Documentation](https://reactjs.org/docs)
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [VirusTotal API Documentation](https://developers.virustotal.com/reference)

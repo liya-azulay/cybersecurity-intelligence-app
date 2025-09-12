@@ -20,6 +20,13 @@ The Cybersecurity Intelligence Application is a full-stack web application desig
 │   Material-UI   │                 │  MITRE ATT&CK   │
 │   Components    │                 │  Data Source    │
 └─────────────────┘                 └─────────────────┘
+         │                                    │
+         │                                    │
+         ▼                                    ▼
+┌─────────────────┐                 ┌─────────────────┐
+│   Cyber Bot     │                 │  VirusTotal API │
+│   Component     │                 │  Integration    │
+└─────────────────┘                 └─────────────────┘
 ```
 
 ## Backend Architecture
@@ -42,7 +49,14 @@ backend/
 │   ├── models.py            # Pydantic data models
 │   ├── database.py          # MongoDB connection management
 │   ├── services.py          # Business logic layer
-│   └── routers.py           # API endpoint definitions
+│   ├── routers.py           # API endpoint definitions
+│   ├── bot_router.py        # Cyber bot API endpoints
+│   └── bot/                 # Cyber bot module
+│       ├── __init__.py
+│       ├── cyber_bot.py     # Main bot logic
+│       ├── command_parser.py # Natural language processing
+│       ├── virustotal_client.py # VirusTotal integration
+│       └── models.py        # Bot-specific models
 ├── tests/                   # Pytest test suite
 │   ├── test_models.py
 │   ├── test_services.py
@@ -96,6 +110,10 @@ backend/
 | POST   | `/api/v1/attack-patterns/search` | Search attack patterns              |
 | GET    | `/api/v1/attack-patterns/{id}`   | Get specific attack pattern         |
 | GET    | `/api/v1/stats`                  | Get statistics                      |
+| POST   | `/api/v1/bot/chat`               | Chat with cyber bot                 |
+| GET    | `/api/v1/bot/stats`              | Get bot statistics                  |
+| GET    | `/api/v1/bot/health`             | Bot health check                    |
+| GET    | `/api/v1/bot/commands`           | Get available bot commands          |
 
 ## Frontend Architecture
 
@@ -116,7 +134,8 @@ frontend/src/
 │   ├── AttackPatternCard.tsx
 │   ├── AttackPatternGrid.tsx
 │   ├── SearchBar.tsx
-│   └── StatsPanel.tsx
+│   ├── StatsPanel.tsx
+│   └── CyberBot.tsx         # Cyber bot chat interface
 ├── hooks/                   # Custom React hooks
 │   ├── useSearch.ts
 │   └── usePagination.ts
@@ -141,8 +160,13 @@ App
 │   │   ├── SearchBar
 │   │   └── AttackPatternGrid
 │   │       └── AttackPatternCard (multiple)
-│   └── TabPanel (Statistics)
-│       └── StatsPanel
+│   ├── TabPanel (Statistics)
+│   │   └── StatsPanel
+│   └── TabPanel (Cyber Bot)
+│       └── CyberBot
+│           ├── Chat Interface
+│           ├── Message History
+│           └── Command Suggestions
 ```
 
 #### State Management
@@ -252,7 +276,7 @@ App
 
 ### Planned Features
 
-1. **Stage 2**: Cyber Bot with chat interface
+1. **✅ Stage 2**: Cyber Bot with chat interface (COMPLETED)
 2. **Stage 3**: Sandbox integration for file analysis
 3. **Advanced Search**: Filters by phase, platform, etc.
 4. **Export Functionality**: Export data to various formats
@@ -268,6 +292,33 @@ App
 4. **Monitoring**: Application performance monitoring
 5. **CI/CD**: Automated testing and deployment
 
+## Cyber Bot Architecture
+
+### Bot Components
+
+The Cyber Bot is implemented as a modular system with the following components:
+
+1. **CyberBot Core** (`cyber_bot.py`): Main bot logic and response generation
+2. **Command Parser** (`command_parser.py`): Natural language processing for user commands
+3. **VirusTotal Client** (`virustotal_client.py`): Integration with VirusTotal API for file analysis
+4. **Bot Models** (`models.py`): Data models for bot requests and responses
+
+### Bot Features
+
+- **Natural Language Processing**: Understands user commands in natural language
+- **Database Integration**: Searches MITRE ATT&CK database for relevant information
+- **VirusTotal Integration**: Analyzes files and hashes for malware detection
+- **Smart Responses**: Provides contextual and helpful responses
+- **Command History**: Tracks user interactions for better assistance
+
+### Bot API Flow
+
+1. User sends message to `/api/v1/bot/chat`
+2. Command parser analyzes the message
+3. Bot determines appropriate action (search, details, virustotal, stats)
+4. Bot executes the action and generates response
+5. Response is returned with suggestions for follow-up actions
+
 ## Conclusion
 
-The Cybersecurity Intelligence Application provides a solid foundation for intelligence officers to analyze cyber threats. The architecture is designed to be scalable, maintainable, and extensible for future enhancements. The separation of concerns between frontend and backend allows for independent development and deployment, while the use of modern technologies ensures good performance and user experience.
+The Cybersecurity Intelligence Application provides a solid foundation for intelligence officers to analyze cyber threats. The architecture is designed to be scalable, maintainable, and extensible for future enhancements. The separation of concerns between frontend and backend allows for independent development and deployment, while the use of modern technologies ensures good performance and user experience. The addition of the Cyber Bot enhances the application's usability by providing an intelligent interface for interacting with the MITRE ATT&CK data.
